@@ -1,6 +1,9 @@
+NUM_MEDICIONES = 5
+
+
 def validar_temperatura(texto):
     try:
-        return float(texto)
+        return float(texto.strip())
     except ValueError:
         return None
 
@@ -21,21 +24,25 @@ def obtener_alerta(promedio):
     return "Calor extremo"
 
 
-def main():
-    temperaturas = []
-    while len(temperaturas) < 5:
-        entrada = input(f"Temperatura {len(temperaturas) + 1}: ")
-        temperatura = validar_temperatura(entrada)
-        if temperatura is None:
-            print("Entrada invalida Ingrese un numero valido")
-            continue
-        temperaturas.append(temperatura)
-
+def mostrar_reporte(temperaturas):
     promedio = calcular_promedio(temperaturas)
     print("\nReporte final")
     print("Temperaturas:", ", ".join(f"{t:.1f}" for t in temperaturas))
     print(f"Promedio: {promedio:.2f}")
     print(f"Alerta: {obtener_alerta(promedio)}")
+
+
+def main():
+    temperaturas = []
+    while len(temperaturas) < NUM_MEDICIONES:
+        entrada = input(f"Temperatura {len(temperaturas) + 1}/{NUM_MEDICIONES}: ")
+        temperatura = validar_temperatura(entrada)
+        if temperatura is None:
+            print("Entrada invalida. Ingrese un numero valido")
+            continue
+        temperaturas.append(temperatura)
+
+    mostrar_reporte(temperaturas)
 
 
 if __name__ == "__main__":
